@@ -1,0 +1,10 @@
+dist/bundle.js
+dist/types
+node_modules
+/.pnp
+.pnp.js
+.DS_Store
+.env.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

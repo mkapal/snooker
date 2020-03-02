@@ -1,0 +1,1 @@
+export const rad2deg = (rad: number): number => (rad / Math.PI) * 180;
