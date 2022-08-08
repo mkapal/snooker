@@ -2,32 +2,20 @@
   "name": "snooker",
   "version": "0.1.0",
   "description": "Snooker in Canvas",
+  "private": true,
+  "type": "module",
   "repository": "git@github.com:mkapal/snooker.git",
   "author": "Martin Kapal",
   "license": "MIT",
-  "main": "dist/bundle.js",
-  "types": "dist/types/index.d.ts",
   "scripts": {
-    "start": "webpack-dev-server --port 9000 --inline --progress --colors --watch --hot --mode development",
-    "type-check": "tsc --noEmit",
-    "type-check:watch": "npm run type-check -- --watch",
-    "build:types": "tsc --emitDeclarationOnly",
-    "build:js": "webpack --mode=production",
-    "build": "npm run build:types && npm run build:js",
-    "prettier": "prettier --write src/**/*.ts"
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "format": "prettier --write *.*"
   },
   "devDependencies": {
-    "@babel/core": "^7.8.6",
-    "@babel/plugin-proposal-class-properties": "^7.8.3",
-    "@babel/plugin-proposal-object-rest-spread": "^7.8.3",
-    "@babel/preset-env": "^7.8.6",
-    "@babel/preset-typescript": "^7.8.3",
-    "babel-loader": "^8.0.6",
-    "fork-ts-checker-webpack-plugin": "^4.0.5",
     "prettier": "^1.19.1",
-    "typescript": "^3.8.3",
-    "webpack": "^4.41.6",
-    "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.10.3"
+    "typescript": "^4.6.4",
+    "vite": "^3.0.4"
   }
 }

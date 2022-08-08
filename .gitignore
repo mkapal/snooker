@@ -1,8 +1,5 @@
-dist/bundle.js
-dist/types
+dist
 node_modules
-/.pnp
-.pnp.js
 .DS_Store
 .env.local
 npm-debug.log*
