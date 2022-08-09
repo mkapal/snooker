@@ -15,31 +15,45 @@ function run() {
 
   const BALL_RADIUS = 20;
   const CANVAS_WIDTH = 1200;
-  const CANVAS_HEIGHT = 800;
-  const SPEED_RATE = 0.1;
+  const CANVAS_HEIGHT = 1000;
+  const ZERO_VELOCITY_THRESHOLD = 0.01;
 
   let x = 150;
-  let y = 400;
-  let directionX = 3;
-  let directionY = 2;
+  let y = BALL_RADIUS;
 
+  // Pixels per millisecond
+  let velocityX = 2;
+  let velocityY = 1;
+
+  let startTime: number | undefined;
+  let elapsedTime = 0;
   let previousTime = 0;
 
   const step = (ctx: CanvasRenderingContext2D) => (currentTime: number) => {
+    if (startTime === undefined) {
+      startTime = currentTime;
+    }
+
+    elapsedTime = currentTime - startTime;
+
+    const timeElement = document.getElementById('time');
+    if (timeElement) {
+      timeElement.innerText = (elapsedTime / 1000).toFixed(1);
+    }
+
     if (previousTime !== currentTime) {
       const timeDifference = currentTime - previousTime;
-      const speed = SPEED_RATE * timeDifference;
-      const newX = x + speed * directionX;
-      const newY = y + speed * directionY;
+      const newX = x + timeDifference * velocityX;
+      const newY = y + timeDifference * velocityY;
 
       // Check for table boundaries (left and right)
       if (newX < BALL_RADIUS || newX >= CANVAS_WIDTH - BALL_RADIUS) {
-        directionX = -directionX;
+        velocityX = -velocityX;
       }
 
       // Check for table boundaries (up and down)
       if (newY < BALL_RADIUS || newY >= CANVAS_HEIGHT - BALL_RADIUS) {
-        directionY = -directionY;
+        velocityY = -velocityY;
       }
 
       // Update ball position and direction
@@ -47,16 +61,16 @@ function run() {
       y = newY;
 
       // Update ball acceleration
-      directionX *= 0.993;
-      directionY *= 0.993;
+      velocityX *= 0.993;
+      velocityY *= 0.993;
 
       // Round very small direction values to 0
-      if (Math.abs(directionX) < 0.01) {
-        directionX = 0;
+      if (Math.abs(velocityX) < ZERO_VELOCITY_THRESHOLD) {
+        velocityX = 0;
       }
 
-      if (Math.abs(directionY) < 0.01) {
-        directionY = 0;
+      if (Math.abs(velocityY) < ZERO_VELOCITY_THRESHOLD) {
+        velocityY = 0;
       }
 
       // Clear the table from previous animation frame
