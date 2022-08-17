@@ -1,7 +1,7 @@
 import { GameState } from '../types';
 import { GameStateAction } from './actions';
 
-const initialGameState = {
+const initialGameState: GameState = {
   ball: {
     position: {
       x: 40,
