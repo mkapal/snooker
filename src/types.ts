@@ -1,4 +1,15 @@
 export type Config = {
+  table: {
+    /** Table width in meters */
+    width: number;
+
+    /** Table height in meters */
+    height: number;
+  };
+  ball: {
+    /** Ball radius in meters */
+    radius: number;
+  };
   canvas: {
     /**
      * Canvas element width in pixels
@@ -22,17 +33,6 @@ export type Config = {
      *
      */
     resolutionMultiplier?: number;
-  };
-  table: {
-    /** Table width in meters */
-    width: number;
-
-    /** Table height in meters */
-    height: number;
-  };
-  ball: {
-    /** Ball radius in meters */
-    radius: number;
   };
 };
 
