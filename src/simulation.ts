@@ -1,29 +1,8 @@
-type Config = {
-  canvas: {
-    /** Pixels */
-    width: number;
-  };
-  table: {
-    /** Meters */
-    width: number;
-
-    /** Meters */
-    height: number;
-  };
-  ball: {
-    /** Meters */
-    radius: number;
-  };
-};
-
-type Point = {
-  x: number;
-  y: number;
-};
+import { Coordinates, Config, GameContext } from './types';
 
 const ZERO_VELOCITY_THRESHOLD = 0.01;
 
-export function run({ canvas, table, ball }: Config) {
+export function run(config: Config) {
   const canvasElement = document.getElementById('game') as HTMLCanvasElement;
 
   if (canvasElement === null) {
@@ -31,10 +10,12 @@ export function run({ canvas, table, ball }: Config) {
     return;
   }
 
-  // Set dimensions
+  // Set canvas dimensions
 
-  const DPI_SCALE = 2;
-  const PIXEL_SCALE = (canvas.width / table.width) * DPI_SCALE;
+  const { canvas, table, ball } = config;
+  const { resolutionMultiplier = 1 } = canvas;
+
+  const PIXEL_SCALE = (canvas.width / table.width) * resolutionMultiplier;
 
   const CANVAS_WIDTH = table.width * PIXEL_SCALE;
   const CANVAS_HEIGHT = table.height * PIXEL_SCALE;
@@ -54,17 +35,27 @@ export function run({ canvas, table, ball }: Config) {
     return;
   }
 
-  // Ball state
+  // Game context
 
-  let position: Point = {
-    x: 40,
-    y: 200,
-  };
-
-  // Pixels per millisecond
-  let velocity: Point = {
-    x: (PIXEL_SCALE * 2) / 1000,
-    y: (PIXEL_SCALE * 1.01) / 1000,
+  const gameContext: GameContext = {
+    canvas: canvasElement,
+    config: {
+      ...config,
+      pixelScale: PIXEL_SCALE,
+      ballRadius: BALL_RADIUS,
+    },
+    state: {
+      ball: {
+        position: {
+          x: 40,
+          y: 200,
+        },
+        velocity: {
+          x: (PIXEL_SCALE * 2) / 1000,
+          y: (PIXEL_SCALE * 1.01) / 1000,
+        },
+      },
+    },
   };
 
   let startTime: number | undefined;
@@ -73,16 +64,16 @@ export function run({ canvas, table, ball }: Config) {
 
   // Listen for mouse drag
 
-  let startPoint: Point = { x: 0, y: 0 };
-  let endPoint: Point = { x: 0, y: 0 };
+  let startPoint: Coordinates = { x: 0, y: 0 };
+  let endPoint: Coordinates = { x: 0, y: 0 };
   let isDragging = false;
 
   canvasElement.addEventListener('mousedown', event => {
-    if (!isOnBall(event, position, BALL_RADIUS, DPI_SCALE, canvasElement)) {
+    if (!isOnBall(event, gameContext)) {
       return;
     }
 
-    startPoint = getCanvasCoordinates(canvasElement, event, DPI_SCALE);
+    startPoint = getCanvasCoordinates(event, gameContext);
     endPoint = startPoint;
     isDragging = true;
   });
@@ -92,7 +83,7 @@ export function run({ canvas, table, ball }: Config) {
       return;
     }
 
-    endPoint = getCanvasCoordinates(canvasElement, event, DPI_SCALE);
+    endPoint = getCanvasCoordinates(event, gameContext);
   });
 
   canvasElement.addEventListener('mouseup', event => {
@@ -100,10 +91,10 @@ export function run({ canvas, table, ball }: Config) {
       return;
     }
 
-    endPoint = getCanvasCoordinates(canvasElement, event, DPI_SCALE);
+    endPoint = getCanvasCoordinates(event, gameContext);
 
-    velocity.x = (endPoint.x - startPoint.x) / 100;
-    velocity.y = (endPoint.y - startPoint.y) / 100;
+    gameContext.state.ball.velocity.x = (endPoint.x - startPoint.x) / 100;
+    gameContext.state.ball.velocity.y = (endPoint.y - startPoint.y) / 100;
     isDragging = false;
   });
 
@@ -120,9 +111,13 @@ export function run({ canvas, table, ball }: Config) {
     }
 
     if (previousTime !== currentTime) {
+      const { position, velocity } = gameContext.state.ball;
+
       const timeDifference = currentTime - previousTime;
-      const newX = position.x + timeDifference * velocity.x;
-      const newY = position.y + timeDifference * velocity.y;
+      const newX =
+        position.x + timeDifference * gameContext.state.ball.velocity.x;
+      const newY =
+        position.y + timeDifference * gameContext.state.ball.velocity.y;
 
       // Check for table boundaries (left and right)
       if (newX < BALL_RADIUS || newX >= CANVAS_WIDTH - BALL_RADIUS) {
@@ -177,30 +172,28 @@ export function run({ canvas, table, ball }: Config) {
   window.requestAnimationFrame(step(ctx));
 }
 
-function isOnBall(
-  event: MouseEvent,
-  ball: Point,
-  ballRadius: number,
-  scale: number,
-  canvas: HTMLCanvasElement,
-) {
-  const mouse = getCanvasCoordinates(canvas, event, scale);
+function isOnBall(event: MouseEvent, context: GameContext) {
+  const mouse = getCanvasCoordinates(event, context);
+  const { position: ballPosition } = context.state.ball;
+  const { ballRadius } = context.config;
 
   const isOnBallX =
-    mouse.x >= ball.x - ballRadius && mouse.x <= ball.x + ballRadius;
+    mouse.x >= ballPosition.x - ballRadius &&
+    mouse.x <= ballPosition.x + ballRadius;
   const isOnBallY =
-    mouse.y >= ball.y - ballRadius && mouse.y <= ball.y + ballRadius;
+    mouse.y >= ballPosition.y - ballRadius &&
+    mouse.y <= ballPosition.y + ballRadius;
 
   return isOnBallX && isOnBallY;
 }
 
 function getCanvasCoordinates(
-  canvas: HTMLCanvasElement,
   event: MouseEvent,
-  scale: number,
-): Point {
-  const x = event.clientX - canvas.getBoundingClientRect().left,
-    y = event.clientY - canvas.getBoundingClientRect().top;
+  context: GameContext,
+): Coordinates {
+  const x = event.clientX - context.canvas.getBoundingClientRect().left,
+    y = event.clientY - context.canvas.getBoundingClientRect().top;
+  const scale = context.config.canvas.resolutionMultiplier ?? 1;
 
   return {
     x: x * scale,

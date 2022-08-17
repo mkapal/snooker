@@ -3,6 +3,7 @@ import { run } from './simulation';
 run({
   canvas: {
     width: 800,
+    resolutionMultiplier: 2,
   },
   table: {
     width: 3.569,
