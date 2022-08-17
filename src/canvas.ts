@@ -36,7 +36,7 @@ export function getCanvasCoordinates(
   event: MouseEvent,
   context: GameContext,
 ): Coordinates {
-  const boundingClientRect = context.canvas.getBoundingClientRect();
+  const boundingClientRect = context.canvasElement.getBoundingClientRect();
   const x = event.clientX - boundingClientRect.left,
     y = event.clientY - boundingClientRect.top;
   const scale = context.config.canvas.resolutionMultiplier ?? 1;

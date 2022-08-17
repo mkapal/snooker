@@ -41,16 +41,20 @@ export type Coordinates = {
   y: number;
 };
 
+export type GameState = {
+  ball: {
+    position: Coordinates;
+    velocity: Coordinates;
+  };
+};
+
 export type GameContext = {
-  canvas: HTMLCanvasElement;
+  canvasElement: HTMLCanvasElement;
   config: Config & {
     ballRadius: number;
     pixelsPerMeter: number;
+    canvasWidth: number;
+    canvasHeight: number;
   };
-  state: {
-    ball: {
-      position: Coordinates;
-      velocity: Coordinates;
-    };
-  };
+  state: GameState;
 };
