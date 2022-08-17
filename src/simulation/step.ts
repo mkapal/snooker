@@ -100,7 +100,7 @@ export const step = ({
 
   window.requestAnimationFrame(
     step({
-      canvasContext: canvasContext,
+      canvasContext,
       gameContext,
       previousTime,
       elapsedTime,
