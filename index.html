@@ -5,13 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Snooker</title>
     <style>
+      body {
+        background-color: #1c3f49;
+        color: white;
+      }
+      #table {
+        display: flex;
+        justify-content: center;
+      }
       #game {
-        background: green;
+        background-color: green;
       }
     </style>
   </head>
   <body>
-    <canvas id="game"></canvas>
+    <div id="table">
+      <canvas id="game"></canvas>
+    </div>
     <div id="time">0</div>
     <script type="module" src="/src/main.ts"></script>
   </body>
