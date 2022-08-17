@@ -1,4 +1,4 @@
-import { GameContext } from './types';
+import { GameContext } from '../types';
 import { getCanvasCoordinates } from './canvas';
 
 export function isOnBall(event: MouseEvent, context: GameContext) {

@@ -1,4 +1,4 @@
-import { Config, GameContext, Coordinates } from './types';
+import { Config, GameContext, Coordinates } from '../types';
 
 type ComputedCanvasProps = {
   canvasWidth: number;

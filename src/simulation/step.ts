@@ -92,6 +92,7 @@ export const step = ({
     canvasContext.fillStyle = 'rgb(255,255,255)';
     canvasContext.fill();
 
+    // TODO
     // if (isDragging) {
     //   ctx.beginPath();
     //   ctx.strokeStyle = 'white';

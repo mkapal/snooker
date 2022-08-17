@@ -1,9 +1,9 @@
-import { Coordinates, Config, GameContext } from './types';
-import { setCanvasDimensions, getCanvasCoordinates } from './canvas';
-import { isOnBall } from './ball';
-import { getGameState, dispatch } from './gameState/reducer';
-import { setBallVelocity } from './gameState/actions';
-import { step } from './simulation/step';
+import { Coordinates, Config, GameContext } from '../types';
+import { setCanvasDimensions, getCanvasCoordinates } from '../table/canvas';
+import { isOnBall } from '../table/ball';
+import { getGameState, dispatch } from '../gameState/reducer';
+import { setBallVelocity } from '../gameState/actions';
+import { step } from './step';
 
 export function run(config: Config) {
   const canvasElement = document.getElementById('game') as HTMLCanvasElement;

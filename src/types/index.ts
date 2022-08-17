@@ -36,11 +36,6 @@ export type Config = {
   };
 };
 
-export type Coordinates = {
-  x: number;
-  y: number;
-};
-
 export type GameState = {
   ball: {
     position: Coordinates;
@@ -57,4 +52,9 @@ export type GameContext = {
     canvasHeight: number;
   };
   state: GameState;
+};
+
+export type Coordinates = {
+  x: number;
+  y: number;
 };
