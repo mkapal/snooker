@@ -45,7 +45,7 @@ export type GameContext = {
   canvas: HTMLCanvasElement;
   config: Config & {
     ballRadius: number;
-    pixelScale: number;
+    pixelsPerMeter: number;
   };
   state: {
     ball: {

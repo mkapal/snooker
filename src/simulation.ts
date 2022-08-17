@@ -1,4 +1,6 @@
 import { Coordinates, Config, GameContext } from './types';
+import { setCanvasDimensions, getCanvasCoordinates } from './canvas';
+import { isOnBall } from './ball';
 
 const ZERO_VELOCITY_THRESHOLD = 0.01;
 
@@ -10,23 +12,11 @@ export function run(config: Config) {
     return;
   }
 
-  // Set canvas dimensions
-
-  const { canvas, table, ball } = config;
-  const { resolutionMultiplier = 1 } = canvas;
-
-  const PIXEL_SCALE = (canvas.width / table.width) * resolutionMultiplier;
-
-  const CANVAS_WIDTH = table.width * PIXEL_SCALE;
-  const CANVAS_HEIGHT = table.height * PIXEL_SCALE;
-  const BALL_RADIUS = ball.radius * PIXEL_SCALE;
-
-  canvasElement.style.width = `${canvas.width}px`;
-  canvasElement.style.height = `${canvas.width *
-    (CANVAS_HEIGHT / CANVAS_WIDTH)}px`;
-
-  canvasElement.width = CANVAS_WIDTH;
-  canvasElement.height = CANVAS_HEIGHT;
+  const { canvasWidth, canvasHeight, pixelsPerMeter } = setCanvasDimensions(
+    canvasElement,
+    config,
+  );
+  const ballRadius = config.ball.radius * pixelsPerMeter;
 
   const ctx = canvasElement.getContext('2d');
 
@@ -41,8 +31,8 @@ export function run(config: Config) {
     canvas: canvasElement,
     config: {
       ...config,
-      pixelScale: PIXEL_SCALE,
-      ballRadius: BALL_RADIUS,
+      pixelsPerMeter,
+      ballRadius,
     },
     state: {
       ball: {
@@ -51,8 +41,8 @@ export function run(config: Config) {
           y: 200,
         },
         velocity: {
-          x: (PIXEL_SCALE * 2) / 1000,
-          y: (PIXEL_SCALE * 1.01) / 1000,
+          x: (pixelsPerMeter * 2) / 1000,
+          y: (pixelsPerMeter * 1.01) / 1000,
         },
       },
     },
@@ -120,12 +110,12 @@ export function run(config: Config) {
         position.y + timeDifference * gameContext.state.ball.velocity.y;
 
       // Check for table boundaries (left and right)
-      if (newX < BALL_RADIUS || newX >= CANVAS_WIDTH - BALL_RADIUS) {
+      if (newX < ballRadius || newX >= canvasWidth - ballRadius) {
         velocity.x = -velocity.x;
       }
 
       // Check for table boundaries (up and down)
-      if (newY < BALL_RADIUS || newY >= CANVAS_HEIGHT - BALL_RADIUS) {
+      if (newY < ballRadius || newY >= canvasHeight - ballRadius) {
         velocity.y = -velocity.y;
       }
 
@@ -147,11 +137,11 @@ export function run(config: Config) {
       }
 
       // Clear the table from previous animation frame
-      ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+      ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
       // Draw the ball
       ctx.beginPath();
-      ctx.arc(position.x, position.y, BALL_RADIUS, 0, Math.PI * 2);
+      ctx.arc(position.x, position.y, ballRadius, 0, Math.PI * 2);
       ctx.fillStyle = 'rgb(255,255,0)';
       ctx.fill();
 
@@ -170,33 +160,4 @@ export function run(config: Config) {
   };
 
   window.requestAnimationFrame(step(ctx));
-}
-
-function isOnBall(event: MouseEvent, context: GameContext) {
-  const mouse = getCanvasCoordinates(event, context);
-  const { position: ballPosition } = context.state.ball;
-  const { ballRadius } = context.config;
-
-  const isOnBallX =
-    mouse.x >= ballPosition.x - ballRadius &&
-    mouse.x <= ballPosition.x + ballRadius;
-  const isOnBallY =
-    mouse.y >= ballPosition.y - ballRadius &&
-    mouse.y <= ballPosition.y + ballRadius;
-
-  return isOnBallX && isOnBallY;
-}
-
-function getCanvasCoordinates(
-  event: MouseEvent,
-  context: GameContext,
-): Coordinates {
-  const x = event.clientX - context.canvas.getBoundingClientRect().left,
-    y = event.clientY - context.canvas.getBoundingClientRect().top;
-  const scale = context.config.canvas.resolutionMultiplier ?? 1;
-
-  return {
-    x: x * scale,
-    y: y * scale,
-  };
 }
