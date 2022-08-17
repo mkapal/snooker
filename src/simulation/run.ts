@@ -85,9 +85,6 @@ export function run(config: Config) {
     step({
       canvasContext,
       gameContext,
-      startTime: undefined,
-      elapsedTime: 0,
-      previousTime: 0,
     }),
   );
 }

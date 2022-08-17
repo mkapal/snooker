@@ -9,28 +9,24 @@ export const BALL_ACCELERATION_COEFFICIENT = 0.9935;
 type StepParams = {
   canvasContext: CanvasRenderingContext2D;
   gameContext: GameContext;
-  startTime: number | undefined;
-  previousTime: number;
-  elapsedTime: number;
+  startTime?: number;
+  previousTime?: number;
 };
 
-export const step = ({
-  canvasContext,
-  gameContext,
-  gameContext: {
-    config: { ballRadius, canvasWidth, canvasHeight },
-  },
-  startTime,
-  elapsedTime,
-  previousTime,
-}: StepParams) => (currentTime: number) => {
+export const step = (stepParams: StepParams) => (currentTime: number) => {
+  const {
+    canvasContext,
+    gameContext,
+    gameContext: {
+      config: { ballRadius, canvasWidth, canvasHeight },
+    },
+    startTime = currentTime,
+    previousTime = 0,
+  } = stepParams;
+
   gameContext.state = getGameState();
 
-  if (startTime === undefined) {
-    startTime = currentTime;
-  }
-
-  elapsedTime = currentTime - startTime;
+  const elapsedTime = currentTime - startTime;
 
   const timeElement = document.getElementById('time');
   if (timeElement) {
@@ -96,14 +92,11 @@ export const step = ({
     // }
   }
 
-  previousTime = currentTime;
-
   window.requestAnimationFrame(
     step({
       canvasContext,
       gameContext,
-      previousTime,
-      elapsedTime,
+      previousTime: currentTime,
       startTime,
     }),
   );
