@@ -1,6 +1,7 @@
 import { getGameState, dispatch } from '../gameState/reducer';
 import { Coordinates, GameContext } from '../types';
 import { setBallPosition, setBallVelocity } from '../gameState/actions';
+import { renderScene } from './scene';
 
 export const ZERO_VELOCITY_THRESHOLD = 0.01;
 export const BALL_ACCELERATION_COEFFICIENT = 0.9935;
@@ -83,14 +84,7 @@ export const step = ({
     dispatch(setBallPosition(newPosition));
     dispatch(setBallVelocity(newVelocity));
 
-    // Clear the table from previous animation frame
-    canvasContext.clearRect(0, 0, canvasWidth, canvasHeight);
-
-    // Draw the ball
-    canvasContext.beginPath();
-    canvasContext.arc(position.x, position.y, ballRadius, 0, Math.PI * 2);
-    canvasContext.fillStyle = 'rgb(255,255,255)';
-    canvasContext.fill();
+    renderScene(canvasContext, gameContext);
 
     // TODO
     // if (isDragging) {
