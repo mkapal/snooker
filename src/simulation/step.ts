@@ -4,6 +4,7 @@ import { setBallPosition, setBallVelocity } from '../gameState/actions';
 import { renderScene } from './scene';
 
 export const ZERO_VELOCITY_THRESHOLD = 0.01;
+export const MAX_VELOCITY = 2;
 export const BALL_ACCELERATION_COEFFICIENT = 0.9935;
 
 type StepParams = {
@@ -74,6 +75,14 @@ export const step = (stepParams: StepParams) => (currentTime: number) => {
 
     if (Math.abs(newVelocity.y) < ZERO_VELOCITY_THRESHOLD) {
       newVelocity.y = 0;
+    }
+
+    if (Math.abs(newVelocity.x) > MAX_VELOCITY) {
+      newVelocity.x = MAX_VELOCITY;
+    }
+
+    if (Math.abs(newVelocity.y) > MAX_VELOCITY) {
+      newVelocity.y = MAX_VELOCITY;
     }
 
     // Update ball position and velocity

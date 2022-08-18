@@ -3,7 +3,7 @@ import { setCanvasDimensions, getCanvasCoordinates } from '../table/canvas';
 import { isOnBall } from '../table/ball';
 import { getGameState, dispatch } from '../gameState/reducer';
 import { setBallVelocity } from '../gameState/actions';
-import { step } from './step';
+import { step, MAX_VELOCITY } from './step';
 
 export function run(config: Config) {
   const canvasElement = document.getElementById('game') as HTMLCanvasElement;
@@ -73,8 +73,8 @@ export function run(config: Config) {
 
     dispatch(
       setBallVelocity({
-        x: (endPoint.x - startPoint.x) / 100,
-        y: (endPoint.y - startPoint.y) / 100,
+        x: Math.min((endPoint.x - startPoint.x) / 100, MAX_VELOCITY),
+        y: Math.min((endPoint.y - startPoint.y) / 100, MAX_VELOCITY),
       }),
     );
 
