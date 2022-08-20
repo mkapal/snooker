@@ -54,7 +54,7 @@ export type GameState = {
   balls: BallState[];
 };
 
-type BallState = {
+export type BallState = {
   id: number;
   isCueBall: boolean;
   color: string;

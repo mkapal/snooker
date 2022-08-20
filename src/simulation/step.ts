@@ -1,8 +1,8 @@
-import { getGameState } from '../gameState/reducer';
+import { getGameState, dispatch } from './state/reducer';
 import { StepParams } from '../types';
 import { clearScene, renderBalls } from '../render';
-import { updateBallStates } from './balls';
 import { handleCueDrag } from './cueDrag';
+import { doSimulationStep } from './state/actions';
 
 export const step = (stepParams: StepParams) => (currentTime: number) => {
   const {
@@ -22,7 +22,8 @@ export const step = (stepParams: StepParams) => (currentTime: number) => {
   }
 
   if (previousTime !== currentTime) {
-    updateBallStates(stepParams, currentTime);
+    const timeDifference = currentTime - previousTime;
+    dispatch(doSimulationStep(timeDifference, gameContext.config));
     clearScene(stepParams);
     renderBalls(stepParams);
     handleCueDrag(stepParams);

@@ -1,6 +1,6 @@
 import { Config, GameContext } from './types';
 import { configureCanvas } from './render';
-import { getGameState } from './gameState/reducer';
+import { getGameState } from './simulation/state/reducer';
 import { step } from './simulation';
 
 export function run(config: Config) {

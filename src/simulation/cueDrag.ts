@@ -1,9 +1,8 @@
 import { Coordinates, StepParams } from '../types';
 import { getCanvasCoordinates } from '../render';
-import { dispatch } from '../gameState';
-import { setBallVelocity } from '../gameState/actions';
-import { MAX_VELOCITY } from './constants';
+import { dispatch } from './state';
 import { isOnCueBall } from './helpers';
+import { cueStrike } from './state/actions';
 
 let startPoint: Coordinates = { x: 0, y: 0 };
 let endPoint: Coordinates = { x: 0, y: 0 };
@@ -49,9 +48,9 @@ export function handleCueDrag({ gameContext, canvasContext }: StepParams) {
 
     if (cueBall) {
       dispatch(
-        setBallVelocity(cueBall.id, {
-          x: Math.min((endPoint.x - startPoint.x) / 100, MAX_VELOCITY),
-          y: Math.min((endPoint.y - startPoint.y) / 100, MAX_VELOCITY),
+        cueStrike({
+          x: endPoint.x - startPoint.x,
+          y: endPoint.y - startPoint.y,
         }),
       );
     }
