@@ -1,5 +1,6 @@
 import { Config, GameContext } from './types';
 import { configureCanvas } from './render';
+import { dispatch } from './simulation/state';
 import { getGameState } from './simulation/state/reducer';
 import { step } from './simulation';
 
@@ -33,6 +34,7 @@ export function run(config: Config) {
     step({
       canvasContext,
       gameContext,
+      dispatch,
     }),
   );
 }

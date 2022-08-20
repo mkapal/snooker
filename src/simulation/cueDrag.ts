@@ -3,13 +3,16 @@ import { Coordinates, StepParams } from '../types';
 
 import { cueStrike } from './state/actions';
 import { isOnCueBall } from './helpers';
-import { dispatch } from './state';
 
 let startPoint: Coordinates = { x: 0, y: 0 };
 let endPoint: Coordinates = { x: 0, y: 0 };
 let isDragging = false;
 
-export function handleCueDrag({ gameContext, canvasContext }: StepParams) {
+export function handleCueDrag({
+  gameContext,
+  canvasContext,
+  dispatch,
+}: StepParams) {
   const { canvasElement } = gameContext;
 
   canvasElement.addEventListener('mousedown', handleDragStart);

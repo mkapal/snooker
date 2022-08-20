@@ -87,6 +87,6 @@ export function gameStateReducer(
 export const getGameState = (): GameState =>
   JSON.parse(JSON.stringify(gameState));
 
-export function dispatch(action: GameStateAction) {
+export function dispatch(action: GameStateAction): void {
   gameState = JSON.parse(JSON.stringify(gameStateReducer(gameState, action)));
 }

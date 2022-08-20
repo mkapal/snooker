@@ -1,3 +1,5 @@
+import { GameStateAction } from '../simulation/state/actions';
+
 export type Config = {
   table: {
     /** Table width in meters */
@@ -71,4 +73,5 @@ export type StepParams = {
   gameContext: GameContext;
   startTime?: number;
   previousTime?: number;
+  dispatch: (action: GameStateAction) => void;
 };

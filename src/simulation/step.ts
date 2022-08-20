@@ -2,7 +2,7 @@ import { clearScene, renderBalls } from '../render';
 import { StepParams } from '../types';
 
 import { doSimulationStep } from './state/actions';
-import { dispatch, getGameState } from './state/reducer';
+import { getGameState } from './state/reducer';
 import { handleCueDrag } from './cueDrag';
 
 export const step = (stepParams: StepParams) => (currentTime: number) => {
@@ -11,6 +11,7 @@ export const step = (stepParams: StepParams) => (currentTime: number) => {
     gameContext,
     startTime = currentTime,
     previousTime = 0,
+    dispatch,
   } = stepParams;
 
   gameContext.state = getGameState();
@@ -36,6 +37,7 @@ export const step = (stepParams: StepParams) => (currentTime: number) => {
       gameContext,
       previousTime: currentTime,
       startTime,
+      dispatch,
     }),
   );
 };
