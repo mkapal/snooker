@@ -56,7 +56,7 @@ export type GameState = {
 
 type BallState = {
   id: number;
-  isCueBall: true;
+  isCueBall: boolean;
   color: string;
   position: Coordinates;
   velocity: Coordinates;

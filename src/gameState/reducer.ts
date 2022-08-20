@@ -16,6 +16,19 @@ const initialGameState: GameState = {
         y: 0.3,
       },
     },
+    {
+      id: 2,
+      isCueBall: false,
+      color: 'red',
+      position: {
+        x: 380,
+        y: 430,
+      },
+      velocity: {
+        x: 0,
+        y: 0,
+      },
+    },
   ],
 };
 
