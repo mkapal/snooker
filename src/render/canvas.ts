@@ -1,12 +1,11 @@
-import { Config, GameContext, Coordinates } from '../types';
+import {
+  Config,
+  GameContext,
+  Coordinates,
+  ComputedCanvasProps,
+} from '../types';
 
-type ComputedCanvasProps = {
-  canvasWidth: number;
-  canvasHeight: number;
-  pixelsPerMeter: number;
-};
-
-export function setCanvasDimensions(
+export function configureCanvas(
   canvasElement: HTMLCanvasElement,
   config: Config,
 ): ComputedCanvasProps {
@@ -17,6 +16,7 @@ export function setCanvasDimensions(
 
   const canvasWidth = table.width * pixelsPerMeter;
   const canvasHeight = table.height * pixelsPerMeter;
+  const ballRadius = config.ball.radius * pixelsPerMeter;
 
   canvasElement.style.width = `${canvas.width}px`;
   canvasElement.style.height = `${canvas.width *
@@ -26,6 +26,7 @@ export function setCanvasDimensions(
   canvasElement.height = canvasHeight;
 
   return {
+    ballRadius,
     canvasWidth,
     canvasHeight,
     pixelsPerMeter,

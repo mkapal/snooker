@@ -1,5 +1,5 @@
 import { Config, GameContext } from './types';
-import { setCanvasDimensions } from './render';
+import { configureCanvas } from './render';
 import { getGameState } from './gameState/reducer';
 import { step } from './simulation';
 
@@ -11,12 +11,6 @@ export function run(config: Config) {
     return;
   }
 
-  const { canvasWidth, canvasHeight, pixelsPerMeter } = setCanvasDimensions(
-    canvasElement,
-    config,
-  );
-  const ballRadius = config.ball.radius * pixelsPerMeter;
-
   const canvasContext = canvasElement.getContext('2d');
 
   if (canvasContext === null) {
@@ -24,14 +18,13 @@ export function run(config: Config) {
     return;
   }
 
+  const computedCanvasProps = configureCanvas(canvasElement, config);
+
   const gameContext: GameContext = {
     canvasElement,
     config: {
       ...config,
-      pixelsPerMeter,
-      ballRadius,
-      canvasWidth,
-      canvasHeight,
+      ...computedCanvasProps,
     },
     state: getGameState(),
   };

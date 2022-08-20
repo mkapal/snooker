@@ -38,13 +38,16 @@ export type Config = {
 
 export type GameContext = {
   canvasElement: HTMLCanvasElement;
-  config: Config & {
-    ballRadius: number;
-    pixelsPerMeter: number;
-    canvasWidth: number;
-    canvasHeight: number;
-  };
+  config: Config & ComputedCanvasProps;
   state: GameState;
+};
+
+/** Canvas properties in pixels, computed from the config values */
+export type ComputedCanvasProps = {
+  ballRadius: number;
+  canvasWidth: number;
+  canvasHeight: number;
+  pixelsPerMeter: number;
 };
 
 export type GameState = {
