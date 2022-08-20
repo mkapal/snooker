@@ -2,12 +2,18 @@ import { Coordinates } from '../types';
 
 type BallPositionUpdateAction = {
   type: 'BALL.POSITION.UPDATE';
-  payload: Coordinates;
+  payload: {
+    id: number;
+    position: Coordinates;
+  };
 };
 
 type BallVelocityUpdateAction = {
   type: 'BALL.VELOCITY.UPDATE';
-  payload: Coordinates;
+  payload: {
+    id: number;
+    velocity: Coordinates;
+  };
 };
 
 export type GameStateAction =
@@ -15,15 +21,23 @@ export type GameStateAction =
   | BallVelocityUpdateAction;
 
 export const setBallPosition = (
+  id: number,
   position: Coordinates,
 ): BallPositionUpdateAction => ({
   type: 'BALL.POSITION.UPDATE',
-  payload: position,
+  payload: {
+    id,
+    position,
+  },
 });
 
 export const setBallVelocity = (
+  id: number,
   velocity: Coordinates,
 ): BallVelocityUpdateAction => ({
   type: 'BALL.VELOCITY.UPDATE',
-  payload: velocity,
+  payload: {
+    id,
+    velocity,
+  },
 });

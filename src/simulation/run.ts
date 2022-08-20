@@ -1,6 +1,6 @@
 import { Coordinates, Config, GameContext } from '../types';
 import { setCanvasDimensions, getCanvasCoordinates } from '../table/canvas';
-import { isOnBall } from '../table/ball';
+import { isOnCueBall } from '../table/ball';
 import { getGameState, dispatch } from '../gameState/reducer';
 import { setBallVelocity } from '../gameState/actions';
 import { step, MAX_VELOCITY } from './step';
@@ -47,7 +47,7 @@ export function run(config: Config) {
   let isDragging = false;
 
   canvasElement.addEventListener('mousedown', event => {
-    if (!isOnBall(event, gameContext)) {
+    if (!isOnCueBall(event, gameContext)) {
       return;
     }
 
@@ -71,12 +71,16 @@ export function run(config: Config) {
 
     endPoint = getCanvasCoordinates(event, gameContext);
 
-    dispatch(
-      setBallVelocity({
-        x: Math.min((endPoint.x - startPoint.x) / 100, MAX_VELOCITY),
-        y: Math.min((endPoint.y - startPoint.y) / 100, MAX_VELOCITY),
-      }),
-    );
+    const cueBall = gameContext.state.balls.find(ball => ball.isCueBall);
+
+    if (cueBall) {
+      dispatch(
+        setBallVelocity(cueBall.id, {
+          x: Math.min((endPoint.x - startPoint.x) / 100, MAX_VELOCITY),
+          y: Math.min((endPoint.y - startPoint.y) / 100, MAX_VELOCITY),
+        }),
+      );
+    }
 
     isDragging = false;
   });

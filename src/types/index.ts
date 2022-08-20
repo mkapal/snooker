@@ -36,13 +36,6 @@ export type Config = {
   };
 };
 
-export type GameState = {
-  ball: {
-    position: Coordinates;
-    velocity: Coordinates;
-  };
-};
-
 export type GameContext = {
   canvasElement: HTMLCanvasElement;
   config: Config & {
@@ -52,6 +45,18 @@ export type GameContext = {
     canvasHeight: number;
   };
   state: GameState;
+};
+
+export type GameState = {
+  balls: BallState[];
+};
+
+type BallState = {
+  id: number;
+  isCueBall: true;
+  color: string;
+  position: Coordinates;
+  velocity: Coordinates;
 };
 
 export type Coordinates = {

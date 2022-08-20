@@ -35,7 +35,7 @@ export const step = (stepParams: StepParams) => (currentTime: number) => {
   }
 
   if (previousTime !== currentTime) {
-    const { position, velocity } = gameContext.state.ball;
+    const { id, position, velocity } = gameContext.state.balls[0];
 
     const timeDifference = currentTime - previousTime;
 
@@ -86,8 +86,8 @@ export const step = (stepParams: StepParams) => (currentTime: number) => {
     }
 
     // Update ball position and velocity
-    dispatch(setBallPosition(newPosition));
-    dispatch(setBallVelocity(newVelocity));
+    dispatch(setBallPosition(id, newPosition));
+    dispatch(setBallVelocity(id, newVelocity));
 
     renderScene(canvasContext, gameContext);
 
