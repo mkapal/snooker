@@ -1,8 +1,9 @@
-import { getGameState, dispatch } from './state/reducer';
-import { StepParams } from '../types';
 import { clearScene, renderBalls } from '../render';
-import { handleCueDrag } from './cueDrag';
+import { StepParams } from '../types';
+
 import { doSimulationStep } from './state/actions';
+import { dispatch, getGameState } from './state/reducer';
+import { handleCueDrag } from './cueDrag';
 
 export const step = (stepParams: StepParams) => (currentTime: number) => {
   const {

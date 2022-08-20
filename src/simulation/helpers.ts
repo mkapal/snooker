@@ -1,5 +1,5 @@
-import { GameContext } from '../types';
 import { getCanvasCoordinates } from '../render';
+import { GameContext } from '../types';
 
 export function isOnCueBall(event: MouseEvent, context: GameContext) {
   const mouse = getCanvasCoordinates(event, context);

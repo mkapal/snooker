@@ -1,8 +1,8 @@
 import {
-  Config,
-  GameContext,
-  Coordinates,
   ComputedCanvasProps,
+  Config,
+  Coordinates,
+  GameContext,
 } from '../types';
 
 export function configureCanvas(

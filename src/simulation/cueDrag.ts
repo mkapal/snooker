@@ -1,8 +1,9 @@
-import { Coordinates, StepParams } from '../types';
 import { getCanvasCoordinates } from '../render';
-import { dispatch } from './state';
-import { isOnCueBall } from './helpers';
+import { Coordinates, StepParams } from '../types';
+
 import { cueStrike } from './state/actions';
+import { isOnCueBall } from './helpers';
+import { dispatch } from './state';
 
 let startPoint: Coordinates = { x: 0, y: 0 };
 let endPoint: Coordinates = { x: 0, y: 0 };
