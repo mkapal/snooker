@@ -2,7 +2,7 @@ import { getGameState } from '../gameState/reducer';
 import { StepParams } from '../types';
 import { clearScene, renderBalls } from '../render';
 import { updateBallStates } from './balls';
-import { handleCueDrag } from './cue';
+import { handleCueDrag } from './cueDrag';
 
 export const step = (stepParams: StepParams) => (currentTime: number) => {
   const {

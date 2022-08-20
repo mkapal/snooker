@@ -1,9 +1,9 @@
-import { Coordinates, StepParams } from '../../types';
-import { getCanvasCoordinates } from '../../render';
-import { dispatch } from '../../gameState';
-import { setBallVelocity } from '../../gameState/actions';
-import { MAX_VELOCITY } from '../constants';
-import { isOnCueBall } from '../helpers';
+import { Coordinates, StepParams } from '../types';
+import { getCanvasCoordinates } from '../render';
+import { dispatch } from '../gameState';
+import { setBallVelocity } from '../gameState/actions';
+import { MAX_VELOCITY } from './constants';
+import { isOnCueBall } from './helpers';
 
 let startPoint: Coordinates = { x: 0, y: 0 };
 let endPoint: Coordinates = { x: 0, y: 0 };
