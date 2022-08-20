@@ -1,4 +1,4 @@
-import { run } from './simulation';
+import { run } from './run';
 
 run({
   canvas: {

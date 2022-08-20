@@ -1,0 +1,3 @@
+export const ZERO_VELOCITY_THRESHOLD = 0.01;
+export const MAX_VELOCITY = 2;
+export const BALL_ACCELERATION_COEFFICIENT = 0.9935;

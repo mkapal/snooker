@@ -63,3 +63,9 @@ export type Coordinates = {
   x: number;
   y: number;
 };
+export type StepParams = {
+  canvasContext: CanvasRenderingContext2D;
+  gameContext: GameContext;
+  startTime?: number;
+  previousTime?: number;
+};

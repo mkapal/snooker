@@ -12,8 +12,8 @@ const initialGameState: GameState = {
         y: 200,
       },
       velocity: {
-        x: 0.8,
-        y: 0.6,
+        x: 0.4,
+        y: 0.3,
       },
     },
   ],
