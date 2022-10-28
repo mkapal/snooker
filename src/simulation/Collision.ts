@@ -1,19 +1,20 @@
 import { Ball } from './Ball';
+import { getDistance } from './utils';
 
 export class Collision {
-  o1: Ball;
-  o2: Ball;
+  ball1: Ball;
+  ball2: Ball;
 
   dx: number;
   dy: number;
-  d: number;
+  distance: number;
 
-  constructor(o1: Ball, o2: Ball, d: number) {
-    this.o1 = o1;
-    this.o2 = o2;
+  constructor(ball1: Ball, ball2: Ball) {
+    this.ball1 = ball1;
+    this.ball2 = ball2;
 
-    this.dx = o2.position.x - o1.position.x;
-    this.dy = o2.position.y - o1.position.y;
-    this.d = d;
+    this.dx = ball2.position.x - ball1.position.x;
+    this.dy = ball2.position.y - ball1.position.y;
+    this.distance = getDistance(ball1.position, ball2.position);
   }
 }
