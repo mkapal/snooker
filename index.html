@@ -8,24 +8,25 @@
       body {
         background-color: #1c3f49;
         color: white;
-      }
-      #table {
-        display: flex;
-        justify-content: center;
+        font-family: sans-serif;
       }
       #game {
         background-color: green;
       }
-      #time {
-        text-align: center;
+      input#fps {
+        width: 40px;
+      }
+      fieldset {
+        width: 300px;
       }
     </style>
   </head>
   <body>
     <div id="table">
       <canvas id="game"></canvas>
+      <div id="time">0</div>
+      <button id="btn-step">Step</button>
+      <script type="module" src="/src/main.ts"></script>
     </div>
-    <div id="time">0</div>
-    <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

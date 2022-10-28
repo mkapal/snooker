@@ -12,6 +12,9 @@ run({
   ball: {
     radius: 0.0525,
   },
+  simulation: {
+    manualStep: false,
+  },
 });
 
 export {};

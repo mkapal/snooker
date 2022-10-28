@@ -1,1 +1,0 @@
-export { dispatch } from './reducer';

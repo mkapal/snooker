@@ -1,18 +1,17 @@
 import { getCanvasCoordinates } from '../render';
-import { Coordinates, StepParams } from '../types';
+import { Coordinates, GameContext } from '../types';
 
-import { cueStrike } from './state/actions';
+import { MAX_VELOCITY } from './constants';
 import { isOnCueBall } from './helpers';
 
 let startPoint: Coordinates = { x: 0, y: 0 };
 let endPoint: Coordinates = { x: 0, y: 0 };
 let isDragging = false;
 
-export function handleCueDrag({
-  gameContext,
-  canvasContext,
-  dispatch,
-}: StepParams) {
+export function handleCueDrag(
+  canvasContext: CanvasRenderingContext2D,
+  gameContext: GameContext,
+) {
   const { canvasElement } = gameContext;
 
   canvasElement.addEventListener('mousedown', handleDragStart);
@@ -51,12 +50,14 @@ export function handleCueDrag({
     const cueBall = gameContext.state.balls.find(ball => ball.isCueBall);
 
     if (cueBall) {
-      dispatch(
-        cueStrike({
-          x: endPoint.x - startPoint.x,
-          y: endPoint.y - startPoint.y,
-        }),
-      );
+      const dragVector: Coordinates = {
+        x: endPoint.x - startPoint.x,
+        y: endPoint.y - startPoint.y,
+      };
+      cueBall.velocity = {
+        x: Math.min(dragVector.x / 100, MAX_VELOCITY),
+        y: Math.min(dragVector.y / 100, MAX_VELOCITY),
+      };
     }
 
     isDragging = false;

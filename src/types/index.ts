@@ -1,4 +1,4 @@
-import { GameStateAction } from '../simulation/state/actions';
+import { Ball } from '../simulation/Ball';
 
 export type Config = {
   table: {
@@ -36,6 +36,9 @@ export type Config = {
      */
     resolutionMultiplier?: number;
   };
+  simulation: {
+    manualStep: boolean;
+  };
 };
 
 export type GameContext = {
@@ -43,6 +46,8 @@ export type GameContext = {
   config: Config & ComputedCanvasProps;
   state: GameState;
 };
+
+export type GameConfig = Config & ComputedCanvasProps;
 
 /** Canvas properties in pixels, computed from the config values */
 export type ComputedCanvasProps = {
@@ -53,25 +58,18 @@ export type ComputedCanvasProps = {
 };
 
 export type GameState = {
-  balls: BallState[];
-};
-
-export type BallState = {
-  id: number;
-  isCueBall: boolean;
-  color: string;
-  position: Coordinates;
-  velocity: Coordinates;
+  balls: Ball[];
 };
 
 export type Coordinates = {
   x: number;
   y: number;
 };
+
 export type StepParams = {
   canvasContext: CanvasRenderingContext2D;
   gameContext: GameContext;
   startTime?: number;
   previousTime?: number;
-  dispatch: (action: GameStateAction) => void;
+  next: (callback: (time: DOMHighResTimeStamp) => void) => void;
 };
